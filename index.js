@@ -84,7 +84,22 @@ function checkCashRegister(price, cash, cid) {
         let dynamicChange = change;
         let realChange = [];
         for(let i=0; i<cidObjs.length; i++){
-
+            let x = Math.floor(dynamicChange/cidObjs[i].unit);
+            if(x > 0){
+                if(x >= cidObjs[i].number){
+                    realChange.push([cidObjs[i].unitNmae, cidObjs[i].amount]);  // x > number, take all
+                    dynamicChange = dynamicChange - cidObjs[i].amount;  // update dynamicChange
+                }else{
+                    realChange.push([cidObjs[i].unitNmae, cidObjs[i].unit * x]); // x < number, take x
+                    dynamicChange = dynamicChange - cidObjs[i].unit * x;
+                }
+            }
+        }
+        
+        if(dynamicChange > 0){
+            console.log('{status: "INSUFFICIENT_FUNDS", change: []}');
+        }else{
+            console.log(realChange);
         }
 
     }
