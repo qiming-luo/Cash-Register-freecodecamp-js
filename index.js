@@ -20,58 +20,72 @@ function checkCashRegister(price, cash, cid) {
     //
     if(diffCash > 0) {
         let cidReverse = [...cid].reverse();
-        console.log(cidReverse);
+        
         // build an array of cid object
-        const cidObj = [
+        const cidObjs = [
             {
                 unit: 100,
+                unitNmae: 'ONE HUNDRED',
                 amount: cidReverse[0][1],
                 number: cidReverse[0][1]/100
             },
             {
                 unit: 20,
+                unitNmae: 'TWENTY',
                 amount: cidReverse[1][1],
                 number: cidReverse[1][1]/20
             },
             {
                 unit: 10,
+                unitNmae: 'TEN',
                 amount: cidReverse[2][1],
                 number: cidReverse[2][1]/10
             },
             {
                 unit: 5,
+                unitNmae: 'FIVE',
                 amount: cidReverse[3][1],
                 number: cidReverse[3][1]/5
             },
             {
                 unit: 1,
+                unitNmae: 'ONE',
                 amount: cidReverse[4][1],
                 number: cidReverse[4][1]/1
             },
             {
                 unit: 0.25,
+                unitNmae: 'QUARTER',
                 amount: cidReverse[5][1],
                 number: cidReverse[5][1]/0.25
             },
             {
                 unit: 0.1,
+                unitNmae: 'DIME',
                 amount: cidReverse[6][1],
                 number: cidReverse[6][1]/0.1
             },
             {
                 unit: 0.05,
+                unitNmae: 'NICKEL',
                 amount: cidReverse[7][1],
                 number: cidReverse[7][1]/0.05
             },
             {
                 unit: 0.01,
+                unitNmae: 'PENNY',
                 amount: cidReverse[8][1],
                 number: cidReverse[8][1]/0.01
             },
         ]
 
-        console.log(cidObj[8]);
+        
         //
+        let dynamicChange = change;
+        let realChange = [];
+        for(let i=0; i<cidObjs.length; i++){
+
+        }
 
     }
     
