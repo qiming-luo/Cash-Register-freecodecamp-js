@@ -1,7 +1,11 @@
 function checkCashRegister(price, cash, cid) {
-    const change = cash - price;
-    const sumCid = cid.reduce((sum,ele) => 
-        sum + ele[1],0);
+    // *100 is to get rid of the problem like this: console.log(1.1+0.1+0.1) --> log: 1.3000000000000003
+    // while console.log((1.1*10+0.1*10+0.1*10)/10)  ---> log: 1.3
+    const change = (cash*100 - price*100)/100;
+
+    let sumCid = cid.reduce((sum,ele) => 
+        sum + ele[1]*100,0);  
+    sumCid = sumCid/100;
     console.log(sumCid);
 
     //
@@ -26,105 +30,77 @@ function checkCashRegister(price, cash, cid) {
             {
                 unit: 100,
                 unitName: 'ONE HUNDRED',
-                amount: cidReverse[0][1],
-                number: cidReverse[0][1]/100
+                amount: cidReverse[0][1]
             },
             {
                 unit: 20,
                 unitName: 'TWENTY',
-                amount: cidReverse[1][1],
-                number: cidReverse[1][1]/20
+                amount: cidReverse[1][1]
             },
             {
                 unit: 10,
                 unitName: 'TEN',
-                amount: cidReverse[2][1],
-                number: cidReverse[2][1]/10
+                amount: cidReverse[2][1]
             },
             {
                 unit: 5,
                 unitName: 'FIVE',
-                amount: cidReverse[3][1],
-                number: cidReverse[3][1]/5
+                amount: cidReverse[3][1]
             },
             {
                 unit: 1,
                 unitName: 'ONE',
-                amount: cidReverse[4][1],
-                number: cidReverse[4][1]/1
+                amount: cidReverse[4][1]
             },
             {
                 unit: 0.25,
                 unitName: 'QUARTER',
-                amount: cidReverse[5][1],
-                number: cidReverse[5][1]/0.25
+                amount: cidReverse[5][1]
             },
             {
                 unit: 0.1,
                 unitName: 'DIME',
-                amount: cidReverse[6][1],
-                number: cidReverse[6][1]/0.1
+                amount: cidReverse[6][1]
             },
             {
                 unit: 0.05,
                 unitName: 'NICKEL',
-                amount: cidReverse[7][1],
-                number: cidReverse[7][1]/0.05
+                amount: cidReverse[7][1]
             },
             {
                 unit: 0.01,
                 unitName: 'PENNY',
-                amount: cidReverse[8][1],
-                number: cidReverse[8][1]/0.01
-            },
+                amount: cidReverse[8][1]
+            }
         ]
 
         
         //
-        let dynamicChange = change;
+        let dynamicChange = change*100;
         let realChange = [];
 
-        /*
-        for(let i=0; i<cidObjs.length; i++){
-            let x = Math.floor(dynamicChange/cidObjs[i].unit);
-            if(x > 0){
-                if(x >= cidObjs[i].number){
-                    realChange.push([cidObjs[i].unitNmae, cidObjs[i].amount]);  // x > number, take all
-                    dynamicChange = dynamicChange - cidObjs[i].amount;  // update dynamicChange
-                }else{
-                    realChange.push([cidObjs[i].unitNmae, cidObjs[i].unit * x]); // x < number, take x
-                    dynamicChange = dynamicChange - cidObjs[i].unit * x;
-                }
-            }
-        }
-        */
-
         for(let i = 0; i<cidObjs.length; i++){
-            if(dynamicChange >= cidObjs[i].unit && cidObjs[i].amount>0){
-                if(dynamicChange >= cidObjs[i].amount){
+            if(dynamicChange >= cidObjs[i].unit*100 && cidObjs[i].amount>0){
+                if(dynamicChange >= cidObjs[i].amount*100){
                     realChange.push([cidObjs[i].unitName, cidObjs[i].amount]); // take all
-                    dynamicChange -= cidObjs[i].amount;
+                    dynamicChange -= cidObjs[i].amount*100;
                 }else{
                     let amountTaking = 0;
-                    while(dynamicChange >= cidObjs[i].unit){  // if dynamicChange < amount, take n*unit unless dynamicChange < unit
-                        amountTaking += cidObjs[i].unit;
-                        dynamicChange = dynamicChange - cidObjs[i].unit;
+                    while(dynamicChange >= cidObjs[i].unit*100){  // if dynamicChange < amount, take n*unit unless dynamicChange < unit
+                        amountTaking += cidObjs[i].unit*100;
+                        dynamicChange = dynamicChange - cidObjs[i].unit*100;
                     }
-                    realChange.push([cidObjs[i].unitName, amountTaking]);
+                    realChange.push([cidObjs[i].unitName, amountTaking/100]);
                 }
             }
         }  // at the end, dynamicChange should be 0 or dynamicChange > 0.
 
-        if(dynamicChange >= 0.01){
+        if(dynamicChange > 0){
             console.log('{status: "INSUFFICIENT_FUNDS", change: []}');
-        }else if(dynamicChange >0 && dynamicChange < 0.01){  // to deal with floating point number error
-            realChange[realChange.length-1][1] += 0.01;
-            console.log(realChange);
         }else{
             console.log(realChange);
         }
         
-
     }
     
 }
