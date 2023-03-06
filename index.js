@@ -93,7 +93,7 @@ function checkCashRegister(price, cash, cid) {
                     realChange.push([cidObjs[i].unitName, amountTaking/100]);
                 }
             }
-        }  // at the end, dynamicChange should be 0 or dynamicChange > 0.
+        }  // at the end, dynamicChange should be 0 or dynamicChange > 0 if cannot return the exact change.
 
         if(dynamicChange > 0){
             return {status: "INSUFFICIENT_FUNDS", change: []};
