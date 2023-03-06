@@ -1,24 +1,24 @@
 function checkCashRegister(price, cash, cid) {
     // *100 is to get rid of the problem like this: console.log(1.1+0.1+0.1) --> log: 1.3000000000000003
     // while console.log((1.1*10+0.1*10+0.1*10)/10)  ---> log: 1.3
+
     const change = (cash*100 - price*100)/100;
 
     let sumCid = cid.reduce((sum,ele) => 
         sum + ele[1]*100,0);  
     sumCid = sumCid/100;
-    console.log(sumCid);
 
     //
     const diffCash = sumCid - change;
 
     //
     if(diffCash < 0){
-        console.log('insufficent fund');
+        return {status: "INSUFFICIENT_FUNDS", change: []};
     }
 
     //
     if(diffCash === 0) {
-        console.log('draw');
+        return {status: "CLOSED", change: cid};
     }
 
     //
@@ -96,9 +96,9 @@ function checkCashRegister(price, cash, cid) {
         }  // at the end, dynamicChange should be 0 or dynamicChange > 0.
 
         if(dynamicChange > 0){
-            console.log('{status: "INSUFFICIENT_FUNDS", change: []}');
+            return {status: "INSUFFICIENT_FUNDS", change: []};
         }else{
-            console.log(realChange);
+            return {status: "OPEN", change: realChange};
         }
         
     }
